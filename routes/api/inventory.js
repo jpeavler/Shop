@@ -64,4 +64,19 @@ router.put('/:id', async function(req, res) {
     }
 });
 
+//Patch router
+router.patch('/:id', async function(req, res) {
+    try {
+        const updatedIValues = await updateItemValues(req.params.id, req.body);
+        res.send(updatedIValues);
+    } catch(err) {
+        if(err.error) {
+            res.status(400).send(err);
+        } else {
+            console.log(err);
+            res.status(500).send("Internal Server issue, check logs");
+        }
+    }
+});
+
 module.exports = router;
