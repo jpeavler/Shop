@@ -49,4 +49,19 @@ router.post('/', async function(req, res) {
     }
 });
 
+//Put router
+router.put('/:id', async function(req, res) {
+    try {
+        const updatedItem = await updateItem(req.params.id, req.body);
+        res.send(updatedItem);
+    } catch(err) {
+        if(err.error) {
+            res.status(400).send(err);
+        } else {
+            console.log(err);
+            res.status(500).send("Internal Server issue, check logs");
+        }
+    }
+});
+
 module.exports = router;
