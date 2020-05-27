@@ -7,6 +7,7 @@ require('dotenv').config();
 const cors = require('cors');
 
 let indexRouter = require('./routes/index');
+let inventoryRouter = require('./routes/api/inventory');
 let usersRouter = require('./routes/users');
 
 let app = express();
@@ -24,6 +25,7 @@ app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api/inventory', inventoryRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
