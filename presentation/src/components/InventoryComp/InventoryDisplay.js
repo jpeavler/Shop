@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
+import InventoryForm from './InventoryForm'
+
 const InventoryDisplay = () => {
     const [inventory, setInv] = useState([]);
     const [isUpdate, setUpdate] = useState(false);
@@ -31,6 +33,7 @@ const InventoryDisplay = () => {
     return (
         <div key="inventory" className="inventory">
             <h1>Shop</h1>
+            <InventoryForm/>
             {displayInv}
         </div>
     )
