@@ -18,11 +18,15 @@ const InventoryDisplay = () => {
             .then(setUpdate(false))
             .then(setItemToUpdate(''))
     }
-
+    const handleUpdate = (item) => {
+        setItemToUpdate(item);
+        setUpdate(true);
+    }
     const displayInv = inventory.map((item) => {
         return (
             <div key={item._id} className="item">
                 <h4 className="itemname">{item.name}</h4>
+                <button onClick={() => handleUpdate(item)}>Edit</button>
                 <p className="price">Price: ${item.price}</p>
                 <p className="quantity">Count: {item.quantity}</p>
                 <p className="description">{item.desc}</p>
@@ -30,10 +34,17 @@ const InventoryDisplay = () => {
         )
     });
 
+    let renderForm;
+    if(isUpdate) {
+        renderForm = <InventoryForm key={itemToUpdate._id} refresh={getInv} isUpdate={isUpdate} myItem={itemToUpdate} id={itemToUpdate._id}/>
+    } else {
+        renderForm = <InventoryForm key="additem" refresh={getInv} isUpdate={isUpdate}/>
+    }
+
     return (
         <div key="inventory" className="inventory">
             <h1>Shop</h1>
-            <InventoryForm/>
+            {renderForm}
             {displayInv}
         </div>
     )
