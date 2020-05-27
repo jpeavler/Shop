@@ -79,4 +79,19 @@ router.patch('/:id', async function(req, res) {
     }
 });
 
+//Delete router
+router.delete('/:id', async function(req, res) {
+    try {
+        const itemRemoved = await deleteItem(req.params.id);
+        res.send(itemRemoved);
+    } catch(err) {
+        if(err.error) {
+            res.status(400).send(err);
+        } else {
+            console.log(err);
+            res.status(500).send("Internal Server issue, check logs");
+        }
+    }
+});
+
 module.exports = router;
