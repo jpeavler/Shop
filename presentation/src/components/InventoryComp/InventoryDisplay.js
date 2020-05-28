@@ -6,6 +6,8 @@ const InventoryDisplay = () => {
     const [inventory, setInv] = useState([]);
     const [isUpdate, setUpdate] = useState(false);
     const [itemToUpdate, setItemToUpdate] = useState('');
+    const [displayActive, setActive] = useState(true);
+    const [displayInactive, setInactive] = useState(true);
 
     useEffect(() => {
         getInv();
@@ -50,29 +52,44 @@ const InventoryDisplay = () => {
             activeButton = <button onClick={() => toggleActive(item._id, true)}>Activate</button>
             deleteButton = <button onClick={() => handleDelete(item._id)}>Delete</button>      
         }
-        return (
-            <div key={item._id} className="item">
-                <h4 className="itemname">{item.name}</h4>
-                <button onClick={() => handleUpdate(item)}>Edit</button>
-                {activeButton}
-                {deleteButton}
-                <p className="price">Price: ${item.price}</p>
-                <p className="quantity">Count: {item.quantity}</p>
-                <p className="description">{item.desc}</p>
-            </div>
-        )
+        if((item.isActive && displayActive) || (!item.isActive && displayInactive)) {
+            return (
+                <div key={item._id} className="item">
+                    <h4 className="itemname">{item.name}</h4>
+                    <button onClick={() => handleUpdate(item)}>Edit</button>
+                    {activeButton}
+                    {deleteButton}
+                    <p className="price">Price: ${item.price}</p>
+                    <p className="quantity">Count: {item.quantity}</p>
+                    <p className="description">{item.desc}</p>
+                </div>
+            )
+        }
     });
-
     let renderForm;
     if(isUpdate) {
         renderForm = <InventoryForm key={itemToUpdate._id} refresh={getInv} isUpdate={isUpdate} myItem={itemToUpdate} id={itemToUpdate._id}/>
     } else {
         renderForm = <InventoryForm key="additem" refresh={getInv} isUpdate={isUpdate}/>
     }
+    let activeDisplayBtn;
+    if(displayActive) {
+        activeDisplayBtn = <button key="hideAct" onClick={() => setActive(false)}>Hide Active</button>
+    }else {
+        activeDisplayBtn = <button key="showAct" onClick={() => setActive(true)}>Show Active</button>
+    }
+    let inactiveDisplayBtn;
+    if(displayInactive) {
+        inactiveDisplayBtn = <button key="hideIn" onClick={() => setInactive(false)}>Hide Inactive</button>
+    }else {
+        inactiveDisplayBtn = <button key="showIn" onClick={() => setInactive(true)}>Show Inactive</button>
+    }
     return (
         <div key="inventory" className="inventory">
             <h1>Shop</h1>
             {renderForm}
+            {activeDisplayBtn}
+            {inactiveDisplayBtn}
             <button onClick={() => handleSort("quantity")}>Sort by Count</button>
             <button onClick={() => handleSort("price")}>Sort by Price</button>
             {displayInv}
