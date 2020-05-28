@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Modal} from 'reactstrap';
+import {Modal, ModalHeader, ModalBody, Form, Input, Button} from 'reactstrap';
 
 const InventoryForm = ({refresh, myItem, id}) => {
     let formName = "";
@@ -47,32 +47,36 @@ const InventoryForm = ({refresh, myItem, id}) => {
     const toggle = () => setModal(!modal);
     let renderSubmit;
     let cancel;
+    let formHeader;
     if(myItem) {
-        renderSubmit = <input key="edit" value="Edit Item" type="submit"/>
-        cancel = <button type="button" key="cancel" onClick={() => refresh()}>Cancel Edit</button>
+        renderSubmit = <Button color="primary" key="edit" type="submit" block>Edit Item</Button>
+        cancel = <Button type="button" key="canceledit" onClick={() => refresh()} block>Cancel Edit</Button>
+        formHeader = <ModalHeader key="edithead">Edit Item: {myItem.name}</ModalHeader>
     } else {
-        renderSubmit = <input key="add" value="Add Item" type="submit"/>
-        cancel = <button type="button" key="cancel" onClick={toggle}>Cancel Add</button>
+        renderSubmit = <Button color="primary" key="add" type="submit" block>Add Item</Button>
+        cancel = <Button type="button" key="canceladd" onClick={toggle} block>Cancel Add</Button>
+        formHeader = <ModalHeader key="addhead">Add a New Item</ModalHeader>
     }
     return (
-        <>
-            <button onClick={toggle}>Add New Item</button>
-            <Modal isOpen={modal} toggle={toggle} className="modelform">
-                <form onSubmit={handleSubmit}>
-                    <input placeholder="Item Name" value={name} 
-                        type="text" onChange={({target}) => setName(target.value)} required/>
-                    <textarea placeholder="Description" value={desc} 
-                        onChange={({target}) => setDesc(target.value)}/>
-                    <input placeholder="Item Count" value={quantity} type="number" 
-                        onChange={({target}) => setCount(target.value)} required/>
-                    <input placeholder="Price" value={price}
-                        type="number" min=".01" step=".01" 
-                        onChange={({target}) => setPrice(target.value)} required/>
-                    {renderSubmit}
-                    {cancel}
-                </form>
-            </Modal>
-        </>
+        <><Button color="primary" onClick={toggle}>Add New Item</Button>
+        <Modal isOpen={modal} toggle={toggle} className="modelform">
+            {formHeader}
+            <ModalBody>
+            <Form onSubmit={handleSubmit}>
+                <Input placeholder="Item Name" value={name} 
+                    type="text" onChange={({target}) => setName(target.value)} required/>
+                <Input type="textarea" placeholder="Description" value={desc} 
+                    onChange={({target}) => setDesc(target.value)}/>
+                <Input placeholder="Item Count" value={quantity} type="number" 
+                    onChange={({target}) => setCount(target.value)} required/>
+                <Input placeholder="Price" value={price}
+                    type="number" min=".01" step=".01" 
+                    onChange={({target}) => setPrice(target.value)} required/>
+                {renderSubmit}
+                {cancel}
+            </Form>
+            </ModalBody>
+        </Modal></>
     )
 }
 
