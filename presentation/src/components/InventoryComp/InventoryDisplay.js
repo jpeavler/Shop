@@ -32,6 +32,11 @@ const InventoryDisplay = () => {
             body: JSON.stringify(newActiveStatus)
         }).then(getInv)
     }
+    const handleSort = (sortMethod) => {
+        if(sortMethod === "quantity") {
+            inventory.sort((a, b) => b.quantity - a.quantity);
+        }
+    }
     const displayInv = inventory.map((item) => {
         let activeButton;
         let deleteButton;
