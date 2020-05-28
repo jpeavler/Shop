@@ -24,12 +24,29 @@ const InventoryDisplay = () => {
             method: 'DELETE'
         }).then(response => response.json()).then(getInv)
     }
+    const toggleActive = (id, isActive) => {
+        const newActiveStatus = {isActive};
+        fetch(`${process.env.REACT_APP_API_URL}/api/inventory/${id}`, {
+            method: 'PATCH',
+            headers: {'Content-Type' : 'application/json'},
+            body: JSON.stringify(newActiveStatus)
+        }).then(getInv)
+    }
     const displayInv = inventory.map((item) => {
+        let activeButton;
+        let deleteButton;
+        if(item.isActive) {
+            activeButton = <button onClick={() => toggleActive(item._id, false)}>Deactivate</button>
+        } else {
+            activeButton = <button onClick={() => toggleActive(item._id, true)}>Activate</button>
+            deleteButton = <button onClick={() => handleDelete(item._id)}>Delete</button>      
+        }
         return (
             <div key={item._id} className="item">
                 <h4 className="itemname">{item.name}</h4>
                 <button onClick={() => handleUpdate(item)}>Edit</button>
-                <button onClick={() => handleDelete(item._id)}>Delete</button>
+                {activeButton}
+                {deleteButton}
                 <p className="price">Price: ${item.price}</p>
                 <p className="quantity">Count: {item.quantity}</p>
                 <p className="description">{item.desc}</p>
