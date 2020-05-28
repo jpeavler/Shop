@@ -33,9 +33,23 @@ const InventoryDisplay = () => {
         }).then(getInv)
     }
     const handleSort = (sortMethod) => {
-        if(sortMethod === "quantity") {
-            inventory.sort((a, b) => b.quantity - a.quantity);
+        let sortedInv = Object.assign([], inventory);
+        if(sortMethod == "quantity") {
+            sortedInv.sort((a, b) => b.quantity - a.quantity);
+        } else if(sortMethod == "active") {
+            sortedInv.sort((a, b) => {
+                if(a.isActive && !b.isActive) {return -1}
+                else if(!a.isActive && b.isActive) {return 1}
+                else {return 0}
+            });
+        } else if(sortMethod == "notActive") {
+            sortedInv.sort((a, b) => {
+                if(a.isActive && !b.isActive) {return 1}
+                else if(!a.isActive && b.isActive) {return -1}
+                else {return 0}
+            });
         }
+        setInv(sortedInv);
     }
     const displayInv = inventory.map((item) => {
         let activeButton;
@@ -69,6 +83,7 @@ const InventoryDisplay = () => {
         <div key="inventory" className="inventory">
             <h1>Shop</h1>
             {renderForm}
+            <button onClick={() => handleSort("quantity")}>Sort by Count</button>
             {displayInv}
         </div>
     )
