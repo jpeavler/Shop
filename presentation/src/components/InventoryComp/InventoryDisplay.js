@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Modal,ModalBody, ModalHeader, Button} from 'reactstrap'
+import {Modal, ModalBody, ModalHeader, Button, CardDeck, Card, CardHeader, CardBody, CardFooter} from 'reactstrap'
 
 import InventoryForm from './InventoryForm'
 
@@ -49,22 +49,26 @@ const InventoryDisplay = () => {
         let activeButton;
         let deleteButton;
         if(item.isActive) {
-            activeButton = <Button color="warning" onClick={() => toggleActive(item._id, false)}>Deactivate</Button>
+            activeButton = <Button color="warning" onClick={() => toggleActive(item._id, false)} block>Deactivate</Button>
         } else {
-            activeButton = <Button color="success" onClick={() => toggleActive(item._id, true)}>Activate</Button>
-            deleteButton = <Button color="danger" onClick={() => handleDelete(item._id)}>Delete</Button>      
+            activeButton = <Button color="success" onClick={() => toggleActive(item._id, true)} block>Activate</Button>
+            deleteButton = <Button color="danger" onClick={() => handleDelete(item._id)} block>Delete</Button>      
         }
         if((item.isActive && displayActive) || (!item.isActive && displayInactive)) {
             return (
-                <div key={item._id} className="item">
-                    <h4 className="itemname">{item.name}</h4>
-                    <Button color="primary" onClick={() => handleUpdate(item)}>Edit</Button>
-                    {activeButton}
-                    {deleteButton}
-                    <p className="price">Price: ${item.price}</p>
-                    <p className="quantity">Count: {item.quantity}</p>
-                    <p className="description">{item.desc}</p>
-                </div>
+                <Card key={item._id} className="item">
+                    <CardHeader className="itemname">{item.name}</CardHeader>
+                    <CardBody>
+                        <p className="price">Price: ${item.price}</p>
+                        <p className="quantity">Count: {item.quantity}</p>
+                        <p className="description">{item.desc}</p>
+                    </CardBody>
+                    <CardFooter>
+                        <Button color="primary" onClick={() => handleUpdate(item)} block>Edit</Button>
+                        {activeButton}
+                        {deleteButton}
+                    </CardFooter>
+                </Card>
             )
         }
     });
@@ -102,7 +106,7 @@ const InventoryDisplay = () => {
                 <Button color="secondary" onClick={() => toggleModal()} block>Close</Button>
                 </ModalBody>
             </Modal>
-            {displayInv}
+            <CardDeck className="inventorydeck">{displayInv}</CardDeck>
         </div>
     )
 }

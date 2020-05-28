@@ -1,3 +1,7 @@
 .App {
   text-align: center;
 }
+.inventorydeck {
+  margin: auto;
+  max-width: 80vw;
+}
