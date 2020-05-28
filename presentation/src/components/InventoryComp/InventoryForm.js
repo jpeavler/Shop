@@ -44,7 +44,7 @@ const InventoryForm = ({refresh, myItem, id}) => {
             .then(() => setPrice('')).then(() => refresh()).then(() => setModal(false))
         }
     }
-
+    const toggle = () => setModal(!modal);
     let renderSubmit;
     let cancel;
     if(myItem) {
@@ -52,10 +52,8 @@ const InventoryForm = ({refresh, myItem, id}) => {
         cancel = <button type="button" key="cancel" onClick={() => refresh()}>Cancel Edit</button>
     } else {
         renderSubmit = <input key="add" value="Add Item" type="submit"/>
+        cancel = <button type="button" key="cancel" onClick={toggle}>Cancel Add</button>
     }
-
-    const toggle = () => setModal(!modal);
-
     return (
         <>
             <button onClick={toggle}>Add New Item</button>
