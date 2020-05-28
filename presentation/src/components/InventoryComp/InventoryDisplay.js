@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {Modal,ModalBody, ModalHeader, Button} from 'reactstrap'
 
 import InventoryForm from './InventoryForm'
 
@@ -8,6 +9,7 @@ const InventoryDisplay = () => {
     const [itemToUpdate, setItemToUpdate] = useState('');
     const [displayActive, setActive] = useState(true);
     const [displayInactive, setInactive] = useState(true);
+    const [filterModal, setFModal] = useState(false);  
 
     useEffect(() => {
         getInv();
@@ -47,16 +49,16 @@ const InventoryDisplay = () => {
         let activeButton;
         let deleteButton;
         if(item.isActive) {
-            activeButton = <button onClick={() => toggleActive(item._id, false)}>Deactivate</button>
+            activeButton = <Button color="warning" onClick={() => toggleActive(item._id, false)}>Deactivate</Button>
         } else {
-            activeButton = <button onClick={() => toggleActive(item._id, true)}>Activate</button>
-            deleteButton = <button onClick={() => handleDelete(item._id)}>Delete</button>      
+            activeButton = <Button color="success" onClick={() => toggleActive(item._id, true)}>Activate</Button>
+            deleteButton = <Button color="danger" onClick={() => handleDelete(item._id)}>Delete</Button>      
         }
         if((item.isActive && displayActive) || (!item.isActive && displayInactive)) {
             return (
                 <div key={item._id} className="item">
                     <h4 className="itemname">{item.name}</h4>
-                    <button onClick={() => handleUpdate(item)}>Edit</button>
+                    <Button color="primary" onClick={() => handleUpdate(item)}>Edit</Button>
                     {activeButton}
                     {deleteButton}
                     <p className="price">Price: ${item.price}</p>
@@ -66,6 +68,7 @@ const InventoryDisplay = () => {
             )
         }
     });
+    const toggleModal = () => setFModal(!filterModal);
     let renderForm;
     if(isUpdate) {
         renderForm = <InventoryForm key={itemToUpdate._id} refresh={getInv} isUpdate={isUpdate} myItem={itemToUpdate} id={itemToUpdate._id}/>
@@ -74,24 +77,31 @@ const InventoryDisplay = () => {
     }
     let activeDisplayBtn;
     if(displayActive) {
-        activeDisplayBtn = <button key="hideAct" onClick={() => setActive(false)}>Hide Active</button>
+        activeDisplayBtn = <Button color="primary" key="hideAct" onClick={() => setActive(false)} block>Hide Active</Button>
     }else {
-        activeDisplayBtn = <button key="showAct" onClick={() => setActive(true)}>Show Active</button>
+        activeDisplayBtn = <Button color="primary" key="showAct" onClick={() => setActive(true)} block>Show Active</Button>
     }
     let inactiveDisplayBtn;
     if(displayInactive) {
-        inactiveDisplayBtn = <button key="hideIn" onClick={() => setInactive(false)}>Hide Inactive</button>
+        inactiveDisplayBtn = <Button color="primary" key="hideIn" onClick={() => setInactive(false)} block>Hide Inactive</Button>
     }else {
-        inactiveDisplayBtn = <button key="showIn" onClick={() => setInactive(true)}>Show Inactive</button>
+        inactiveDisplayBtn = <Button color="primary" key="showIn" onClick={() => setInactive(true)} block>Show Inactive</Button>
     }
     return (
         <div key="inventory" className="inventory">
             <h1>Shop</h1>
             {renderForm}
-            {activeDisplayBtn}
-            {inactiveDisplayBtn}
-            <button onClick={() => handleSort("quantity")}>Sort by Count</button>
-            <button onClick={() => handleSort("price")}>Sort by Price</button>
+            <Button color="primary" onClick={() => toggleModal()}>Display Settings</Button>
+            <Modal key="filter" isOpen={filterModal} toggle={toggleModal} className="modaltoggle">
+                <ModalHeader>Sort and Hide Options</ModalHeader>
+                <ModalBody>
+                {activeDisplayBtn}
+                {inactiveDisplayBtn}
+                <Button color="primary" onClick={() => handleSort("quantity")} block>Sort by Count</Button>
+                <Button color="primary" onClick={() => handleSort("price")} block>Sort by Price</Button>
+                <Button color="secondary" onClick={() => toggleModal()} block>Close</Button>
+                </ModalBody>
+            </Modal>
             {displayInv}
         </div>
     )
