@@ -58,7 +58,7 @@ const InventoryForm = ({refresh, myItem, id}) => {
         formHeader = <ModalHeader key="addhead">Add a New Item</ModalHeader>
     }
     return (
-        <><Button color="primary" onClick={toggle}>Add New Item</Button>
+        <><Button color="primary" className="topbtn" onClick={toggle}>Add New Item</Button>
         <Modal isOpen={modal} toggle={toggle} className="modelform">
             {formHeader}
             <ModalBody>

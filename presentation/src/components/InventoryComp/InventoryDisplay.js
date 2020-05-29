@@ -93,9 +93,9 @@ const InventoryDisplay = () => {
     }
     return (
         <div key="inventory" className="inventory">
-            <h1>Shop</h1>
+            <h1>My Inventory</h1>
             {renderForm}
-            <Button color="primary" onClick={() => toggleModal()}>Display Settings</Button>
+            <Button color="primary" className="topbtn" onClick={() => toggleModal()}>Display Settings</Button>
             <Modal key="filter" isOpen={filterModal} toggle={toggleModal} className="modaltoggle">
                 <ModalHeader>Sort and Hide Options</ModalHeader>
                 <ModalBody>
