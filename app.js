@@ -1,28 +1,27 @@
-let createError = require('http-errors');
-let express = require('express');
-let path = require('path');
-let cookieParser = require('cookie-parser');
-let logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 require('dotenv').config();
 const cors = require('cors');
 
-let inventoryRouter = require('./routes/api/inventory');
-let usersRouter = require('./routes/users');
+const inventoryRouter = require('./routes/api/inventory');
+const authRoutes = require('./routes/api/auth');
 
-let app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json());app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-app.use('/users', usersRouter);
+app.use('/api/auth', authRoutes);
 app.use('/api/inventory', inventoryRouter);
 
 // catch 404 and forward to error handler
