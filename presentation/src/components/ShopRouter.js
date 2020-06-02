@@ -9,7 +9,7 @@ import Home from '../pages/Home';
 import Inventory from '../pages/Inventory';
 import Profile from '../pages/Profile';
 import Signup from '../pages/Signup';
-import {isLoggedIn, logout} from '../config/auth';
+import {isLoggedIn} from '../config/auth';
 
 const ShopRouter = () => {
     return(
