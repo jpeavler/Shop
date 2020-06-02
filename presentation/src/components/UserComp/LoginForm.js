@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {Form, FormGroup, Input, Label, Button} from 'reactstrap'
+import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
+import {setToken} from '../../config/auth';
 
 const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [remembered, setRemembered] = useState(false);
+    const [msg, setMsg] = useState('');
 
     useEffect(() => {
         const localUsername = localStorage.getItem('username');
@@ -18,12 +20,24 @@ const LoginForm = () => {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
+        setMsg('');
         console.log(username, password, remembered);
         if(remembered) {
             localStorage.setItem('username', username);
         } else {
             localStorage.removeItem('username');
         }
+        fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username, password})
+        }).then(response => {
+            if(response.status === 200) {
+                setToken(response.headers.get('authentication'));
+            } else {
+                setMsg('Login Failed');
+            }
+        })
     }
     return (
         <Form onSubmit={handleSubmit}>
@@ -38,6 +52,7 @@ const LoginForm = () => {
                 <Label for="remember">Remember Me</Label>
             </FormGroup>
             <Button block>Login</Button>
+            <span style={{'color': 'red'}}>{msg}</span>
         </Form>
     )
 }

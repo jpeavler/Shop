@@ -30,6 +30,7 @@ router.post('/login', async function(req, res) {
                         if(err) {throw err;}
                         console.log(token);
                         res.set('authentication', token);
+                        res.set('Access-Control-Expose-Headers', 'authentication');
                         res.send();
                     });
                 }
