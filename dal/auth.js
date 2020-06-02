@@ -9,6 +9,30 @@ const settings = {useUnifiedTopology: true};
 const dbName = 'shop';
 const colName = 'users';
 
+//Read fuction
+const getUsersByValue = (key, value) => {
+    const myPromise = new Promise((resolve, reject) => {
+        MongoClient.connect(url, settings, function(err, client) {
+            if(err) {
+                reject(err);
+            } else {
+                console.log('Conected to DB for READ');
+                const db = client.db(dbName);
+                const collection = db.collection(colName);
+                collection.find({ [key] : value}).toArray(function (err, docs) {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(docs);
+                        client.close();
+                    }
+                })
+            }
+        })
+    });
+    return myPromise;
+}
+
 //CREATE function
 const registerUser = (user) => {
     const myPromise = new Promise((resolve, reject) => {
@@ -34,5 +58,6 @@ const registerUser = (user) => {
 }
 
 module.exports = {
-    registerUser
+    registerUser,
+    getUsersByValue
 }
