@@ -10,7 +10,7 @@ const dbName = 'shop';
 const colName = 'users';
 
 //Read fuction
-const getUsersByValue = (key, value) => {
+const getUserByValue = (key, value) => {
     const myPromise = new Promise((resolve, reject) => {
         MongoClient.connect(url, settings, function(err, client) {
             if(err) {
@@ -59,5 +59,5 @@ const registerUser = (user) => {
 
 module.exports = {
     registerUser,
-    getUsersByValue
+    getUserByValue
 }
