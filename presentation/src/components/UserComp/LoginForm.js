@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
+import {Form, FormGroup, Input, Label, Button, Spinner} from 'reactstrap';
 import {setToken, isLoggedIn} from '../../config/auth';
 
 const LoginForm = ({loggedIn, setLoggedIn}) => {
@@ -7,8 +7,7 @@ const LoginForm = ({loggedIn, setLoggedIn}) => {
     const [password, setPassword] = useState('');
     const [remembered, setRemembered] = useState(false);
     const [msg, setMsg] = useState('');
-    //const [loggedIn, setLoggedIn] = useState(isLoggedIn());
-
+    const [displaySpinner, setSpinner] = useState(false);
     useEffect(() => {
         const localUsername = localStorage.getItem('username');
         if(localUsername) {
@@ -21,6 +20,7 @@ const LoginForm = ({loggedIn, setLoggedIn}) => {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
+        setSpinner(true);
         setMsg('');
         console.log(username, password, remembered);
         if(remembered) {
@@ -39,6 +39,7 @@ const LoginForm = ({loggedIn, setLoggedIn}) => {
             } else {
                 setMsg('Login Failed');
             }
+            setSpinner(false);
         })
     }
     let form;
@@ -56,12 +57,15 @@ const LoginForm = ({loggedIn, setLoggedIn}) => {
                     </FormGroup>
                     <Button block>Login</Button>
                     <span style={{'color': 'red'}}>{msg}</span>
-                    </Form>
+                </Form>
     } else {
         form = <div>Signed In</div>
     }
+    let spinner;
+    if (displaySpinner) {spinner = <Spinner color='primary'/>}
+    else {spinner = <></>}
     return (
-        <>{form}</>
+        <>{form}{spinner}</>
     )
 }
 
