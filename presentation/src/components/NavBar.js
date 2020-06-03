@@ -4,8 +4,8 @@ import {Button} from 'reactstrap';
 import '../stylesheets/NavBar.css';
 import {logout, isLoggedIn} from '../config/auth';
 
-const NavBar = () =>{
-    const [loggedIn, setLoggedIn] = useState(isLoggedIn());
+const NavBar = ({loggedIn, setLoggedIn}) =>{
+    //const [loggedIn, setLoggedIn] = useState(isLoggedIn());
     let logBtn;
     const handleLogout = () => {
         logout();

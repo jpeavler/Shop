@@ -1,13 +1,15 @@
-import React from 'react';
-import NavBar from '../components/NavBar'
-import LoginForm from '../components/UserComp/LoginForm'
+import React, {useState} from 'react';
+import NavBar from '../components/NavBar';
+import LoginForm from '../components/UserComp/LoginForm';
+import {isLoggedIn} from '../config/auth'
 
 const Home = () => {
+    const [loggedIn, setLoggedIn] = useState(isLoggedIn());
     return (
         <div className="home">
-            <NavBar/>
+            <NavBar loggedIn={loggedIn} setLoggedIn ={setLoggedIn}/>
             <h2>Home</h2>
-            <LoginForm/>
+            <LoginForm loggedIn={loggedIn} setLoggedIn ={setLoggedIn}/>
         </div>
     )
 }

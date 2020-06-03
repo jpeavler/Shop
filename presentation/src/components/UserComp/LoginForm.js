@@ -2,12 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
 import {setToken, isLoggedIn} from '../../config/auth';
 
-const LoginForm = () => {
+const LoginForm = ({loggedIn, setLoggedIn}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [remembered, setRemembered] = useState(false);
     const [msg, setMsg] = useState('');
-    const [loggedIn, setLoggedIn] = useState(isLoggedIn());
+    //const [loggedIn, setLoggedIn] = useState(isLoggedIn());
 
     useEffect(() => {
         const localUsername = localStorage.getItem('username');
