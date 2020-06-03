@@ -8,9 +8,9 @@ const salt = process.env.SALT;
 const privateKey = process.env.PRIVATE_KEY;
 
 //Get router
-router.get('/user', async function(req, res) {
+router.get('/:user', async function(req, res) {
     try {
-        const dbUser = await getUserByValue('username', req.body.username);
+        const dbUser = await getUserByValue('username', req.params.user);
         res.send(dbUser);
     } catch(err) {
         console.log(err);
