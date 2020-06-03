@@ -1,13 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {Button} from 'reactstrap';
 import '../stylesheets/NavBar.css';
 import {logout, isLoggedIn} from '../config/auth';
 
 const NavBar = () =>{
+    const [loggedIn, setLoggedIn] = useState(isLoggedIn());
     let logBtn;
+    const handleLogout = () => {
+        logout();
+        setLoggedIn(false);
+    }
     if(isLoggedIn()) {
-        logBtn = <Button onClick={() => logout()} color="primary">Logout</Button>
+        logBtn = <Button onClick={() => handleLogout()} color="primary">Logout</Button>
     } else {
         logBtn = <Link to='/signup' className="NavLink">Signup</Link>
     }
