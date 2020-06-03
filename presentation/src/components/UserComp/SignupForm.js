@@ -7,9 +7,11 @@ const SignupForm = () => {
     const [password, setPassword] = useState('');
     const [pswrdconfirm, setConfirm] = useState('');
     const [displaySpinner, setSpinner] = useState(false);
+    const [msg, setMsg] = useState('');
     const handleSubmit = (event) => {
         event.preventDefault();
         setSpinner(true);
+        setMsg("");
         if(password === pswrdconfirm){
             const isActive = true;
             const bio = "Shop user";
@@ -23,7 +25,7 @@ const SignupForm = () => {
                 .then(() => setPassword('')).then(() => setConfirm(''))
         }
         else {
-            //message to warn user that passwords don't match
+            setMsg("Passwords must match");
         }
         setSpinner(false);
     }
@@ -37,7 +39,8 @@ const SignupForm = () => {
                 <Input placeholder="Email" type="email" onChange={({target}) => setEmail(target.value)} value={email} required/>
                 <Input placeholder="Password" type="password" onChange={({target}) => setPassword(target.value)} value={password} required/>
                 <Input placeholder="Password Confirmation" type="password" onChange={({target}) => setConfirm(target.value)} value={pswrdconfirm} required/>
-                <Button block>Submit</Button>   
+                <Button block>Submit</Button>
+                <span style={{'color': 'red'}}>{msg}</span> 
             </Form>
             {spinner}
         </>
