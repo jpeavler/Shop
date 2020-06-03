@@ -8,6 +8,8 @@ const SignupForm = () => {
     const [pswrdconfirm, setConfirm] = useState('');
     const [displaySpinner, setSpinner] = useState(false);
     const [msg, setMsg] = useState('');
+    const [usernameTaken, setTaken] = useState(0);
+
     const handleSubmit = (event) => {
         event.preventDefault();
         setSpinner(true);
@@ -29,13 +31,23 @@ const SignupForm = () => {
         }
         setSpinner(false);
     }
+    const handleUsername = () => {
+        setMsg("");
+        fetch(`${process.env.REACT_APP_API_URL}/api/auth/${username}`)
+            .then(response => response.json()).then(fetchMsg => setTaken(fetchMsg.length))
+        if(usernameTaken == 1) {
+            setMsg("Username already taken");
+        } else {
+            setMsg("");
+        }
+    }
     let spinner;
     if(displaySpinner) {spinner = <Spinner color="primary"/>}
     else {spinner = <></>}
     return (
         <>
             <Form className="signup" onSubmit={handleSubmit}>
-                <Input placeholder="User Name" onChange={({target}) => setUserName(target.value)} value={username} required/>
+                <Input placeholder="User Name" onBlur={() => handleUsername()} onChange={({target}) => setUserName(target.value)} value={username} required/>
                 <Input placeholder="Email" type="email" onChange={({target}) => setEmail(target.value)} value={email} required/>
                 <Input placeholder="Password" type="password" onChange={({target}) => setPassword(target.value)} value={password} required/>
                 <Input placeholder="Password Confirmation" type="password" onChange={({target}) => setConfirm(target.value)} value={pswrdconfirm} required/>
