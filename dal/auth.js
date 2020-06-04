@@ -12,21 +12,36 @@ const colName = 'users';
 //Read fuction
 const getUserByValue = (key, value) => {
     const myPromise = new Promise((resolve, reject) => {
-        MongoClient.connect(url, settings, function(err, client) {
+        MongoClient.connect(url, settings, async function(err, client) {
             if(err) {
                 reject(err);
             } else {
                 console.log('Conected to DB for READ');
                 const db = client.db(dbName);
                 const collection = db.collection(colName);
-                collection.find({ [key] : value}).toArray(function (err, docs) {
-                    if(err) {
-                        reject(err);
-                    } else {
-                        resolve(docs);
+                if(key == "_id") {
+                    try {
+                        const _id = new ObjectID(value);
+                        const result = await collection.findOne({_id});
+                        if(result) {
+                            resolve(result);
+                        }else {
+                            reject({error: "ID not found in database"});
+                        }
                         client.close();
+                    } catch(err) {
+                        reject({error: "ID must be in ObjectID format"});
                     }
-                })
+                } else {
+                    collection.find({ [key] : value}).toArray(function (err, docs) {
+                        if(err) {
+                            reject(err);
+                        } else {
+                            resolve(docs);
+                            client.close();
+                        }
+                    });
+                } 
             }
         })
     });
