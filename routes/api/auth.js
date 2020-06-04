@@ -8,10 +8,14 @@ const salt = process.env.SALT;
 const privateKey = process.env.PRIVATE_KEY;
 
 //Get routers
-router.get('/id/:_id', async function(req, res) {   //get user by id
+router.get('/id/:token', async function(req, res) {   //get user by id inside encrypted token
     try {
-        const dbUser = await getUserByValue('_id', req.params._id);
-        res.send(dbUser);
+        const decoded = jwt.verify(req.params.token, privateKey);
+        const _id = decoded._id;
+        const dbUser = await getUserByValue('_id', _id);
+        delete dbUser._id;
+        delete dbUser.password;
+        res.send(dbUser);       //sends back user info excluding their password and id
     } catch(err) {
         console.log(err);
         res.status(500).send('Internal Server issue, check logs');
