@@ -17,7 +17,10 @@ const Profile = () => {
 
         console.log(user.pic);
         let img;
-        if(user.pic == 0) {img =<Media object src={"/assets/DefaultUserIcon.png"} alt="Profile" width="100px"/>}
+        if(user.pic == 0) {img =<Media object src={"/assets/blackUser.png"} alt="Profile" width="100px"/>}
+        else if(user.pic == 1) {img =<Media object src={"/assets/redUser.png"} alt="Profile" width="100px"/>}
+        else if(user.pic == 2) {img =<Media object src={"/assets/blueUser.png"} alt="Profile" width="100px"/>}
+        else if(user.pic == 3) {img =<Media object src={"/assets/purpleUser.png"} alt="Profile" width="100px"/>}
     return (
         <div className="profile">
             <NavBar loggedIn={loggedIn} setLoggedIn ={setLoggedIn}/>
