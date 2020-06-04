@@ -16,9 +16,9 @@ const ShopRouter = () => {
         <Router>
             <div>
                 <Switch>
-                    <Route exact path="/inventory">
+                    <PrivateRoute exact path="/inventory">
                         <Inventory/>  
-                    </Route>
+                    </PrivateRoute>
                     <PrivateRoute exact path="/profile">
                         <Profile/>
                     </PrivateRoute>
