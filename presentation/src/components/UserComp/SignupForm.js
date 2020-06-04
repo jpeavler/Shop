@@ -8,13 +8,13 @@ const SignupForm = () => {
     const [pswrdconfirm, setConfirm] = useState('');
     const [displaySpinner, setSpinner] = useState(false);
     const [msg, setMsg] = useState('');
-    const [usernameTaken, setTaken] = useState(0);
+    const [usernameTaken, setTaken] = useState(0);      //0 means not taken, 1 means username already exists in database
 
     const handleSubmit = (event) => {
         event.preventDefault();
         setSpinner(true);
         setMsg("");
-        if(password === pswrdconfirm){
+        if(password === pswrdconfirm && usernameTaken == 0){
             const isActive = true;
             const bio = "Shop user";
             const pic = "default.jpg";
@@ -25,9 +25,12 @@ const SignupForm = () => {
                 body: JSON.stringify(user)
             }).then(() => setUserName('')).then(() => setEmail(''))
                 .then(() => setPassword('')).then(() => setConfirm(''))
-        }
-        else {
+        } else if (password != pswrdconfirm && usernameTaken != 0) {
+            setMsg("Username already taken and passwords must match")
+        } else if(password != pswrdconfirm) {
             setMsg("Passwords must match");
+        } else {
+            setMsg("Username already taken")
         }
         setSpinner(false);
     }
