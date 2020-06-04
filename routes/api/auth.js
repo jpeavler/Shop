@@ -7,8 +7,17 @@ const {registerUser, getUserByValue} = require('../../dal/auth');
 const salt = process.env.SALT;
 const privateKey = process.env.PRIVATE_KEY;
 
-//Get router
-router.get('/:user', async function(req, res) {
+//Get routers
+router.get('/id/:_id', async function(req, res) {   //get user by id
+    try {
+        const dbUser = await getUserByValue('_id', req.params._id);
+        res.send(dbUser);
+    } catch(err) {
+        console.log(err);
+        res.status(500).send('Internal Server issue, check logs');
+    }
+})
+router.get('/:user', async function(req, res) {     //get user by username
     try {
         const dbUser = await getUserByValue('username', req.params.user);
         res.send(dbUser);
