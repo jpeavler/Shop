@@ -24,6 +24,8 @@ router.get('/id/:token', async function(req, res) {   //get user by id inside en
 router.get('/:user', async function(req, res) {     //get user by username
     try {
         const dbUser = await getUserByValue('username', req.params.user);
+        delete dbUser._id;
+        delete dbUser.password;
         res.send(dbUser);
     } catch(err) {
         console.log(err);
