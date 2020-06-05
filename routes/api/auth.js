@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {registerUser, getUserByValue} = require('../../dal/auth');
+const {registerUser, getUserByValue, updateUserValues} = require('../../dal/auth');
 
 const salt = process.env.SALT;
 const privateKey = process.env.PRIVATE_KEY;
@@ -93,6 +93,20 @@ router.post('/register', function(req, res) {
             console.log(err);
             res.status(500).send('Internal Server issue, check logs');
         }
+    }
+});
+//Patch User Router
+router.patch('/id/:token', async function(req, res) {   //allows logged in user to edit their profile
+    try {
+        const decoded = jwt.verify(req.params.token, privateKey);
+        const _id = decoded._id;
+        const dbUserValues = await updateUserValues(_id, req.body);
+        delete dbUserValues._id;
+        delete dbUserValues.password;
+        res.send(dbUserValues);
+    } catch(err) {
+        console.log(err);
+        res.status(500).send('Internal Server issue, check logs');        
     }
 });
 
