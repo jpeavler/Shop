@@ -7,13 +7,13 @@ import ProfileForm from '../components/UserComp/ProfileForm';
 const Profile = () => {
     const [loggedIn, setLoggedIn] = useState(isLoggedIn());     //loggedIn returns the token if the user is logged in
     const [user, setUser] = useState("");
-    const [newBio, setBio] = useState("");
+    const [newBio, setBio] = useState();
     const [newPic, setPic] = useState(0);
     const [modalOpen, setModal] = useState(false);
 
     const getUserInfo = () => {
         fetch(`${process.env.REACT_APP_API_URL}/api/auth/id/${loggedIn}`)
-        .then(response => response.json()).then(userInfo => setUser(userInfo))
+        .then(response => response.json()).then(userInfo => {setUser(userInfo); setBio(userInfo.bio)})
     }
     const updateProfile = (event) => {
         event.preventDefault();
