@@ -13,7 +13,11 @@ const Profile = () => {
 
     const getUserInfo = () => {
         fetch(`${process.env.REACT_APP_API_URL}/api/auth/id/${loggedIn}`)
-        .then(response => response.json()).then(userInfo => {setUser(userInfo); setBio(userInfo.bio)})
+        .then(response => response.json()).then(userInfo => {
+            setUser(userInfo); 
+            setBio(userInfo.bio);
+            setPic(userInfo.pic);
+        })
     }
     const updateProfile = (event) => {
         event.preventDefault();
