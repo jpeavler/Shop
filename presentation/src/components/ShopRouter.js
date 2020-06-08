@@ -8,6 +8,7 @@ import {
 import Home from '../pages/Home';
 import Inventory from '../pages/Inventory';
 import Profile from '../pages/Profile';
+import Cart from '../pages/Cart';
 import Signup from '../pages/Signup';
 import {isLoggedIn} from '../config/auth';
 
@@ -21,6 +22,9 @@ const ShopRouter = () => {
                     </PrivateRoute>
                     <PrivateRoute exact path="/profile">
                         <Profile/>
+                    </PrivateRoute>
+                    <PrivateRoute exact path="/cart">
+                        <Cart/>
                     </PrivateRoute>
                     <Route exact path="/signup">
                         <Signup/>
@@ -40,8 +44,7 @@ const PrivateRoute = ({ children, ...rest}) => {
             isLoggedIn() ? (children) : (
             <Redirect to={{pathname: '/', state: {from: location}}} />
             )
-        }
-        />
+        }/>
     )
 }
 

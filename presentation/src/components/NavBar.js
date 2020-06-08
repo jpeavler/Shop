@@ -2,10 +2,9 @@ import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {Button} from 'reactstrap';
 import '../stylesheets/NavBar.css';
-import {logout, isLoggedIn} from '../config/auth';
+import {logout} from '../config/auth';
 
 const NavBar = ({loggedIn, setLoggedIn}) =>{
-    //const [loggedIn, setLoggedIn] = useState(isLoggedIn());
     let logBtn;
     const handleLogout = () => {
         logout();
@@ -21,6 +20,7 @@ const NavBar = ({loggedIn, setLoggedIn}) =>{
             <Link to='/' className="NavLink">Home</Link>
             <Link to='/profile' className="NavLink">Profile</Link>
             <Link to='/inventory' className="NavLink">Inventory</Link>
+            <Link to='/cart' className="NavLink">Cart</Link>
             {logBtn}
         </nav>
     )
