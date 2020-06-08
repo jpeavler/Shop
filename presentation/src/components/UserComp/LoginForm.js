@@ -22,7 +22,6 @@ const LoginForm = ({loggedIn, setLoggedIn}) => {
         event.preventDefault();
         setSpinner(true);
         setMsg('');
-        console.log(username, password, remembered);
         if(remembered) {
             localStorage.setItem('username', username);
         } else {
