@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {Modal, ModalBody, ModalHeader, Button, CardDeck, Card, CardHeader, CardBody, CardFooter} from 'reactstrap'
-
-import InventoryForm from './InventoryForm'
+import {Modal, ModalBody, ModalHeader, Button, CardDeck, Card, CardHeader, CardBody, CardFooter} from 'reactstrap';
+import {isLoggedIn} from '../../config/auth';
+import InventoryForm from './InventoryForm';
 
 const InventoryDisplay = () => {
     const [inventory, setInv] = useState([]);
@@ -9,7 +9,7 @@ const InventoryDisplay = () => {
     const [itemToUpdate, setItemToUpdate] = useState('');
     const [displayActive, setActive] = useState(true);
     const [displayInactive, setInactive] = useState(true);
-    const [filterModal, setFModal] = useState(false);  
+    const [filterModal, setFModal] = useState(false); 
 
     useEffect(() => {
         getInv();
@@ -93,7 +93,7 @@ const InventoryDisplay = () => {
     }
     return (
         <div key="inventory" className="inventory">
-            <h1>My Inventory</h1>
+            <h2>Your Inventory</h2>
             {renderForm}
             <Button color="primary" className="topbtn" onClick={() => toggleModal()}>Display Settings</Button>
             <Modal key="filter" isOpen={filterModal} toggle={toggleModal} className="modaltoggle">

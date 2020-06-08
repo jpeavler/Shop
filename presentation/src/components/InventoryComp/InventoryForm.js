@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Modal, ModalHeader, ModalBody, Form, Input, Button} from 'reactstrap';
+import {isLoggedIn} from '../../config/auth';
 
 const InventoryForm = ({refresh, myItem, id}) => {
     let formName = "";
@@ -19,13 +20,22 @@ const InventoryForm = ({refresh, myItem, id}) => {
     const [quantity, setCount] = useState(formCount);
     const [price, setPrice] = useState(formPrice);
     const [modal, setModal] = useState(modalOpen);
+    const [username, setUsername] = useState('');
 
+    const getUserInfo = () => {
+        fetch(`${process.env.REACT_APP_API_URL}/api/auth/id/${isLoggedIn()}`)
+        .then(response => response.json()).then(userInfo => setUsername(userInfo.username))
+    }
+    useEffect(() => {
+        getUserInfo();
+    }, [])
     const handleSubmit = (event) => {
         event.preventDefault();
         let isActive = true;
+        let seller = username;
         if(myItem) {
             isActive = myItem.isActive;
-            const updatedItem = {name, desc, quantity, price, isActive};
+            const updatedItem = {name, desc, quantity, price, isActive, seller};
             fetch(`${process.env.REACT_APP_API_URL}/api/inventory/${id}`, {
                 method: 'PUT',
                 headers: {'Content-Type' : 'application/json'},
@@ -34,7 +44,7 @@ const InventoryForm = ({refresh, myItem, id}) => {
                 .then(() => setDesc('')).then(() => setCount(''))
                 .then(() => setPrice('')).then(() => refresh()).then(() => setModal(false))
         } else {
-            const addedItem = {name, desc, quantity, price, isActive};
+            const addedItem = {name, desc, quantity, price, isActive, seller};
             fetch(`${process.env.REACT_APP_API_URL}/api/inventory`, {
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},
