@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import NavBar from '../components/NavBar';
 import LoginForm from '../components/UserComp/LoginForm';
+import ShopDisplay from '../components/InventoryComp/ShopDisplay';
 import {isLoggedIn} from '../config/auth'
 
 const Home = () => {
@@ -10,6 +11,7 @@ const Home = () => {
             <NavBar loggedIn={loggedIn} setLoggedIn ={setLoggedIn}/>
             <h2>Home</h2>
             <LoginForm loggedIn={loggedIn} setLoggedIn ={setLoggedIn}/>
+            <ShopDisplay/>
         </div>
     )
 }
