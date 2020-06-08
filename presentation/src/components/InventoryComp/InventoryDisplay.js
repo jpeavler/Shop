@@ -9,15 +9,21 @@ const InventoryDisplay = () => {
     const [itemToUpdate, setItemToUpdate] = useState('');
     const [displayActive, setActive] = useState(true);
     const [displayInactive, setInactive] = useState(true);
-    const [filterModal, setFModal] = useState(false); 
+    const [filterModal, setFModal] = useState(false);
+    const [username, setUsername] = useState('');
 
     useEffect(() => {
+        getUserInfo();
         getInv();
     }, []);
     const getInv = () => {
         fetch(`${process.env.REACT_APP_API_URL}/api/inventory`)
             .then(response => response.json()).then(inv => setInv(inv))
-            .then(setUpdate(false)).then(setItemToUpdate(''))
+            .then(() => setUpdate(false)).then(() => setItemToUpdate(''))
+    }
+    const getUserInfo = () => {
+        fetch(`${process.env.REACT_APP_API_URL}/api/auth/id/${isLoggedIn()}`)
+        .then(response => response.json()).then(userInfo => setUsername(userInfo.username))
     }
     const handleUpdate = (item) => {
         setItemToUpdate(item);
@@ -54,22 +60,24 @@ const InventoryDisplay = () => {
             activeButton = <Button color="success" onClick={() => toggleActive(item._id, true)} block>Activate</Button>
             deleteButton = <Button color="danger" onClick={() => handleDelete(item._id)} block>Delete</Button>      
         }
-        if((item.isActive && displayActive) || (!item.isActive && displayInactive)) {
-            return (
-                <Card key={item._id} className="item">
-                    <CardHeader className="itemname">{item.name}</CardHeader>
-                    <CardBody>
-                        <p className="price">Price: ${item.price}</p>
-                        <p className="quantity">Count: {item.quantity}</p>
-                        <p className="description">{item.desc}</p>
-                    </CardBody>
-                    <CardFooter>
-                        <Button color="primary" onClick={() => handleUpdate(item)} block>Edit</Button>
-                        {activeButton}
-                        {deleteButton}
-                    </CardFooter>
-                </Card>
-            )
+        if(item.seller == username) {
+            if((item.isActive && displayActive) || (!item.isActive && displayInactive)) {
+                return (
+                    <Card key={item._id} className="item">
+                        <CardHeader className="itemname">{item.name}</CardHeader>
+                        <CardBody>
+                            <p className="price">Price: ${item.price}</p>
+                            <p className="quantity">Count: {item.quantity}</p>
+                            <p className="description">{item.desc}</p>
+                        </CardBody>
+                        <CardFooter>
+                            <Button color="primary" onClick={() => handleUpdate(item)} block>Edit</Button>
+                            {activeButton}
+                            {deleteButton}
+                        </CardFooter>
+                    </Card>
+                )
+            }
         }
     });
     const toggleModal = () => setFModal(!filterModal);
