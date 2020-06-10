@@ -9,7 +9,6 @@ const Home = () => {
     return (
         <div className="home">
             <NavBar loggedIn={loggedIn} setLoggedIn ={setLoggedIn}/>
-            <h2>Home</h2>
             <LoginForm loggedIn={loggedIn} setLoggedIn ={setLoggedIn}/>
             <ShopDisplay/>
         </div>

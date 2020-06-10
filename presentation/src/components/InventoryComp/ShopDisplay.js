@@ -5,7 +5,7 @@ import {isLoggedIn} from '../../config/auth';
 const ShopDisplay = () => {
     const [inventory, setInv] = useState([]);
     const [filterModal, setFModal] = useState(false);
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState('');
 
     useEffect(() => {
         getInv();
@@ -25,18 +25,19 @@ const ShopDisplay = () => {
     }
     const handleCart = (id, added) => {
         let changedCart = Object.assign([], cart);
-        let itemIndex = inventory.findIndex((invItem) => invItem._id == id);
-        let item = inventory[itemIndex];
         if(added) {
-            changedCart.push(item);
+            changedCart.push(id);
         } else {
-            changedCart = changedCart.filter((cartItem, index) => index != itemIndex);
+            //changedCart = changedCart.filter((cartItem, index) => index != itemIndex);
         }
         setCart(changedCart);
-        console.log(cart);
+        localStorage.setItem('Cart', JSON.stringify(cart));
     }
     const displayInv = inventory.map((item) => {
-        let addToCart = <Button onClick={() => handleCart(item._id, true)}>Add To Cart</Button>            //ToDo: Add conditional to determine whether to add or remove the item from cart
+        let addToCart
+        if(isLoggedIn()) {
+            addToCart = <Button color="primary" onClick={() => handleCart(item._id, true)} block>Add To Cart</Button>
+        }
         if(item.isActive) {
             return (
                 <Card key={item._id} className="item">
