@@ -17,7 +17,7 @@ const SignupForm = () => {
         if(password === pswrdconfirm && usernameTaken == 0){
             const isActive = true;
             const bio = "Shop user";
-            const pic = "default.jpg";
+            const pic = 0;
             const user = {username, email, password, isActive, bio, pic};
             fetch(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
                 method: 'POST',
