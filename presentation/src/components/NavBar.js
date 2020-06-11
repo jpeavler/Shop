@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {Button} from 'reactstrap';
 import '../stylesheets/NavBar.css';
 import {logout} from '../config/auth';

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, Input} from 'reactstrap';
+import {Button, Modal, ModalHeader, ModalBody, Form, Input} from 'reactstrap';
 import '../../stylesheets/profile.css';
 
 const ProfileForm = ({updateProfile, bio, setBio, setPic, modal, toggle, user}) => {
