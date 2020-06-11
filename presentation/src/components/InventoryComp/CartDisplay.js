@@ -1,29 +1,40 @@
 import React, {useState, useEffect} from 'react';
-import {Table, Card, CardHeader, CardBody} from 'reactstrap';
+import {Table} from 'reactstrap';
 
 const CartDisplay = () => {
     const [cartItems, setCartItems] = useState([]);
+    const [total, setTotal] = useState(0);
     let cart = localStorage.getItem('Cart');
     useEffect(() => {
         getInv();
     }, []);
+    useEffect(() => {
+        getTotal();
+    }, [cartItems])
     const getInv = () => {
         fetch(`${process.env.REACT_APP_API_URL}/api/inventory`).then(response => response.json())
-            .then(inv => {
-                let invInCart = Object.assign([], inv);
-                invInCart = invInCart.filter((item) => {
-                    let keep = false;
-                    if(cart != null) {
-                        console.log(cart.split(','))
-                        let cartParsed = cart.split(",");
-                        cartParsed.forEach((itemID) => {
-                            if(itemID == item._id) {keep = true;}
-                        })
-                    }
-                    return keep;
-                })
-                setCartItems(invInCart);
+        .then(inv => {
+            let invInCart = Object.assign([], inv);
+            invInCart = invInCart.filter((item) => {
+                let keep = false;
+                if(cart != null) {
+                    let cartParsed = cart.split(",");
+                    cartParsed.forEach((itemID) => {
+                        if(itemID == item._id) {keep = true;}
+                    })
+                }
+                return keep;
             })
+            setCartItems(invInCart);
+        });
+    }
+    const getTotal = () => {
+        let myTotal = 0;
+        cartItems.forEach((item) => {
+            myTotal = myTotal + parseFloat(item.price);
+            console.log("Total: ", myTotal);
+        })
+        setTotal(myTotal);
     }
     const displayInv = cartItems.map((item) => {
         return (
@@ -36,7 +47,10 @@ const CartDisplay = () => {
     return (
         <Table striped>
         <thead><th>Product Name</th><th>Price</th></thead>
-        <tbody>{displayInv}</tbody>
+        <tbody>
+            {displayInv}
+            <tr><td>Total</td><td>${total}</td></tr>
+        </tbody>
         </Table>
     )
 }
