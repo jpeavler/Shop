@@ -47,9 +47,17 @@ const ShopDisplay = () => {
     const displayInv = inventory.map((item) => {
         let addToCart;
         let removeFromCart;
+        let cartArray = cart.split(','); 
+        let inCart = false;
+        cartArray.forEach((CartID) => {
+            if(item._id == CartID) {inCart = true}
+        });
         if(isLoggedIn()) {
-            addToCart = <Button color="primary" onClick={() => handleCart(item._id, true)} block>Add To Cart</Button>
-            removeFromCart = <Button color="primary" onClick={() => handleCart(item._id, false)} block>Remove From Cart</Button>
+            if(inCart) {
+                removeFromCart = <Button color="primary" onClick={() => handleCart(item._id, false)} block>Remove From Cart</Button>
+            } else {
+                addToCart = <Button color="primary" onClick={() => handleCart(item._id, true)} block>Add To Cart</Button>
+            }
         }
         if(item.isActive) {
             return (
