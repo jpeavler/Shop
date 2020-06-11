@@ -9,6 +9,7 @@ const NavBar = ({loggedIn, setLoggedIn}) =>{
     const handleLogout = () => {
         logout();
         setLoggedIn(false);
+        localStorage.removeItem("Cart");
     }
     if(loggedIn) {
         logBtn = <Button onClick={() => handleLogout()} color="primary">Logout</Button>
