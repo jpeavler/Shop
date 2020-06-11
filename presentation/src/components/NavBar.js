@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import React from 'react';
+import {Link, Redirect} from 'react-router-dom';
 import {Button} from 'reactstrap';
 import '../stylesheets/NavBar.css';
 import {logout} from '../config/auth';
@@ -9,12 +9,13 @@ const NavBar = ({loggedIn, setLoggedIn}) =>{
     const handleLogout = () => {
         logout();
         setLoggedIn(false);
-        localStorage.removeItem("Cart");
+
+        
     }
     if(loggedIn) {
         logBtn = <Button onClick={() => handleLogout()} color="primary">Logout</Button>
     } else {
-        logBtn = <Link to='/signup' className="NavLink">Signup</Link>
+        logBtn = <Link to='/signup' className="NavLink">Register</Link>
     }
     return(
         <nav>

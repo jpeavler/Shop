@@ -6,6 +6,8 @@ export const isLoggedIn = () => {
 // Removes token from LocalStorage
 export const logout = () => {
     localStorage.removeItem('auth');
+    localStorage.removeItem("Cart");
+    window.location.reload(false);
 }
 // Stores the Auth Token in LocalStorage
 export const setToken = (token) => {
