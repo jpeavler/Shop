@@ -11,7 +11,7 @@ const NavBar = ({loggedIn, setLoggedIn}) =>{
         setLoggedIn(false);
     }
     if(loggedIn) {
-        logBtn = <Button onClick={() => handleLogout()} color="primary">Logout</Button>
+        logBtn = <Button className="NavLink" onClick={() => handleLogout()} color="primary">Logout</Button>
     } else {
         logBtn = <Link to='/signup' className="NavLink">Register</Link>
     }
