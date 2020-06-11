@@ -32,7 +32,6 @@ const CartDisplay = () => {
         let myTotal = 0;
         cartItems.forEach((item) => {
             myTotal = myTotal + parseFloat(item.price);
-            console.log("Total: ", myTotal);
         })
         setTotal(myTotal);
     }

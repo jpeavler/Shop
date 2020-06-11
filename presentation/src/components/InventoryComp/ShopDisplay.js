@@ -30,16 +30,13 @@ const ShopDisplay = () => {
             changedCart = changedCart.concat(id, ",");
         } else {
             let cartArray = changedCart.split(',');
-            console.log("Cart Array before filter:", cartArray);
             cartArray = cartArray.filter((cartID) => id != cartID);
-            console.log("Cart Array after filter:", cartArray);
             changedCart = "";
             cartArray.forEach((cartID) => {
                 if(cartID != ""){
                     changedCart = changedCart.concat(cartID, ",")
                 }
             })
-            console.log("Changed Cart: ", changedCart);
         }
         setCart(changedCart);
         localStorage.setItem('Cart', changedCart);

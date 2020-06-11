@@ -9,8 +9,6 @@ const NavBar = ({loggedIn, setLoggedIn}) =>{
     const handleLogout = () => {
         logout();
         setLoggedIn(false);
-
-        
     }
     if(loggedIn) {
         logBtn = <Button onClick={() => handleLogout()} color="primary">Logout</Button>
