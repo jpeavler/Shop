@@ -3,9 +3,10 @@ import {Modal, ModalBody, ModalHeader, Button, CardDeck, Card, CardHeader, CardB
 import {isLoggedIn} from '../../config/auth';
 
 const ShopDisplay = () => {
+    if(!localStorage.getItem("Cart")){localStorage.setItem("Cart", "")}
     const [inventory, setInv] = useState([]);
     const [filterModal, setFModal] = useState(false);
-    const [cart, setCart] = useState('');
+    const [cart, setCart] = useState(localStorage.getItem("Cart"));
 
     useEffect(() => {
         getInv();
@@ -24,14 +25,14 @@ const ShopDisplay = () => {
         setInv(sortedInv);
     }
     const handleCart = (id, added) => {
-        let changedCart = Object.assign([], cart);
+        let changedCart = cart;
         if(added) {
-            changedCart.push(id);
+            changedCart = changedCart.concat(",", id);
         } else {
             //changedCart = changedCart.filter((cartItem, index) => index != itemIndex);
         }
         setCart(changedCart);
-        localStorage.setItem('Cart', JSON.stringify(cart));
+        localStorage.setItem('Cart', changedCart);
     }
     const displayInv = inventory.map((item) => {
         let addToCart

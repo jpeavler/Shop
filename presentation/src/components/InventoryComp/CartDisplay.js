@@ -14,7 +14,8 @@ const CartDisplay = () => {
                 invInCart = invInCart.filter((item) => {
                     let keep = false;
                     if(cart != null) {
-                        let cartParsed = JSON.parse(cart);
+                        console.log(cart.split(','))
+                        let cartParsed = cart.split(",");
                         cartParsed.forEach((itemID) => {
                             if(itemID == item._id) {keep = true;}
                         })
