@@ -27,17 +27,29 @@ const ShopDisplay = () => {
     const handleCart = (id, added) => {
         let changedCart = cart;
         if(added) {
-            changedCart = changedCart.concat(",", id);
+            changedCart = changedCart.concat(id, ",");
         } else {
-            //changedCart = changedCart.filter((cartItem, index) => index != itemIndex);
+            let cartArray = changedCart.split(',');
+            console.log("Cart Array before filter:", cartArray);
+            cartArray = cartArray.filter((cartID) => id != cartID);
+            console.log("Cart Array after filter:", cartArray);
+            changedCart = "";
+            cartArray.forEach((cartID) => {
+                if(cartID != ""){
+                    changedCart = changedCart.concat(cartID, ",")
+                }
+            })
+            console.log("Changed Cart: ", changedCart);
         }
         setCart(changedCart);
         localStorage.setItem('Cart', changedCart);
     }
     const displayInv = inventory.map((item) => {
-        let addToCart
+        let addToCart;
+        let removeFromCart;
         if(isLoggedIn()) {
             addToCart = <Button color="primary" onClick={() => handleCart(item._id, true)} block>Add To Cart</Button>
+            removeFromCart = <Button color="primary" onClick={() => handleCart(item._id, false)} block>Remove From Cart</Button>
         }
         if(item.isActive) {
             return (
@@ -51,6 +63,7 @@ const ShopDisplay = () => {
                     </CardBody>
                     <CardFooter>
                         {addToCart}
+                        {removeFromCart}
                     </CardFooter>
                 </Card>
             )
