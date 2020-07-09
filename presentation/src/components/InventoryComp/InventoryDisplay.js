@@ -85,21 +85,15 @@ const InventoryDisplay = () => {
         }
     });
     const toggleModal = () => setFModal(!filterModal);
-    let renderForm;
-    isUpdate ? renderForm = <InventoryForm key={itemToUpdate._id} refresh={getInv} isUpdate={isUpdate} myItem={itemToUpdate} id={itemToUpdate._id}/>
-            : renderForm = <InventoryForm key="additem" refresh={getInv} isUpdate={isUpdate}/>
-    let activeDisplayBtn;
-    if(displayActive) {
-        activeDisplayBtn = <Button color="primary" key="hideAct" onClick={() => setActive(false)} block>Hide Active</Button>
-    }else {
-        activeDisplayBtn = <Button color="primary" key="showAct" onClick={() => setActive(true)} block>Show Active</Button>
-    }
-    let inactiveDisplayBtn;
-    if(displayInactive) {
-        inactiveDisplayBtn = <Button color="primary" key="hideIn" onClick={() => setInactive(false)} block>Hide Inactive</Button>
-    }else {
-        inactiveDisplayBtn = <Button color="primary" key="showIn" onClick={() => setInactive(true)} block>Show Inactive</Button>
-    }
+    let renderForm = isUpdate ? 
+        <InventoryForm key={itemToUpdate._id} refresh={getInv} isUpdate={isUpdate} myItem={itemToUpdate} id={itemToUpdate._id}/>
+        : <InventoryForm key="additem" refresh={getInv} isUpdate={isUpdate}/>
+    let activeBtn = displayActive ? 
+        <Button color="primary" key="hideAct" onClick={() => setActive(false)} block>Hide Active</Button>
+        : <Button color="primary" key="showAct" onClick={() => setActive(true)} block>Show Active</Button>
+    let inactiveBtn = displayInactive ? 
+        <Button color="primary" key="hideIn" onClick={() => setInactive(false)} block>Hide Inactive</Button>
+        : <Button color="primary" key="showIn" onClick={() => setInactive(true)} block>Show Inactive</Button>
     return (
         <div key="inventory" className="inventory">
             <h2>Your Inventory</h2>
@@ -108,8 +102,8 @@ const InventoryDisplay = () => {
             <Modal key="filter" isOpen={filterModal} toggle={toggleModal} className="modaltoggle">
                 <ModalHeader>Sort and Hide Options</ModalHeader>
                 <ModalBody>
-                {activeDisplayBtn}
-                {inactiveDisplayBtn}
+                {activeBtn}
+                {inactiveBtn}
                 <Button color="primary" onClick={() => handleSort("quantity")} block>Sort by Count</Button>
                 <Button color="primary" onClick={() => handleSort("price")} block>Sort by Price</Button>
                 <Button color="secondary" onClick={() => toggleModal()} block>Close</Button>
