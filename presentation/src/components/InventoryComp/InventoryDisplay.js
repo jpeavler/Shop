@@ -32,7 +32,11 @@ const InventoryDisplay = () => {
     const handleDelete = (id) => {
         fetch(`${process.env.REACT_APP_API_URL}/api/inventory/${id}`, {
             method: 'DELETE'
-        }).then(response => response.json()).then(getInv)
+        }).then(response => response.json());
+        let changedInventory = [...inventory];
+        changedInventory.filter(item => item._id != id);
+        setInv(changedInventory);
+        console.log(inventory);
     }
     const toggleActive = (id, isActive) => {
         const newActiveStatus = {isActive};
@@ -82,11 +86,8 @@ const InventoryDisplay = () => {
     });
     const toggleModal = () => setFModal(!filterModal);
     let renderForm;
-    if(isUpdate) {
-        renderForm = <InventoryForm key={itemToUpdate._id} refresh={getInv} isUpdate={isUpdate} myItem={itemToUpdate} id={itemToUpdate._id}/>
-    } else {
-        renderForm = <InventoryForm key="additem" refresh={getInv} isUpdate={isUpdate}/>
-    }
+    isUpdate ? renderForm = <InventoryForm key={itemToUpdate._id} refresh={getInv} isUpdate={isUpdate} myItem={itemToUpdate} id={itemToUpdate._id}/>
+            : renderForm = <InventoryForm key="additem" refresh={getInv} isUpdate={isUpdate}/>
     let activeDisplayBtn;
     if(displayActive) {
         activeDisplayBtn = <Button color="primary" key="hideAct" onClick={() => setActive(false)} block>Hide Active</Button>
