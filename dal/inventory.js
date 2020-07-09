@@ -165,6 +165,7 @@ const deleteItem = (id) => {
                             reject(err);
                         }else{
                             if(data.lastErrorObject.n > 0) {
+                                console.log("Data.value",data);
                                 resolve(data.value);
                             }else{
                                 resolve({error: "ID doesn't exist in Database"})
@@ -177,6 +178,7 @@ const deleteItem = (id) => {
             }
         });
     });
+    console.log("MyPromise: ", myPromise);
     return myPromise;
 }
 

@@ -32,11 +32,17 @@ const InventoryDisplay = () => {
     const handleDelete = (id) => {
         fetch(`${process.env.REACT_APP_API_URL}/api/inventory/${id}`, {
             method: 'DELETE'
-        }).then(response => response.json());
-        let changedInventory = [...inventory];
-        changedInventory.filter(item => item._id != id);
-        setInv(changedInventory);
-        console.log(inventory);
+        })
+        .then(response => response.json())
+        .then(res =>{
+            console.log("Result from fetch: ", res);
+            let changedInventory = [...inventory];
+            console.log("Before filter", changedInventory);
+            changedInventory = changedInventory.filter(item => item._id !== res._id);
+            console.log("After filter", changedInventory);
+            setInv(changedInventory);
+            return changedInventory;
+        })
     }
     const toggleActive = (id, isActive) => {
         const newActiveStatus = {isActive};
