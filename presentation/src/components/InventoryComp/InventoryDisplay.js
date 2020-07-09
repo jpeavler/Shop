@@ -56,12 +56,11 @@ const InventoryDisplay = () => {
         setInv(sortedInv);
     }
     const displayInv = inventory.map((item) => {
-        let activeButton;
+        let activeButton = item.isActive ? 
+            <Button color="warning" onClick={() => toggleActive(item._id, false)} block>Deactivate</Button>
+            : <Button color="success" onClick={() => toggleActive(item._id, true)} block>Activate</Button>
         let deleteButton;
-        if(item.isActive) {
-            activeButton = <Button color="warning" onClick={() => toggleActive(item._id, false)} block>Deactivate</Button>
-        } else {
-            activeButton = <Button color="success" onClick={() => toggleActive(item._id, true)} block>Activate</Button>
+        if(!item.isActive) {
             deleteButton = <Button color="danger" onClick={() => handleDelete(item._id)} block>Delete</Button>      
         }
         if(item.seller == username) {
