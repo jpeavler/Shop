@@ -95,12 +95,17 @@ const updateItem = (id, item) => {
                 console.log('Connected to DB for UPDATE: PUT');
                 const db = client.db(dbName);
                 const collection = db.collection(colName);
-                collection.replaceOne({_id: ObjectID(id)}, item,
-                {upsert: true}, (err, result) => {
+                collection.replaceOne({_id: ObjectID(id)}, item, {upsert: true},
+                (err, result) => {
                     if(err) {
                         reject(err);
                     } else {
-                        resolve({updated_id: id});
+                        console.log("Put response from MongoDB",result);
+                        let trimmedResult = {};
+                        trimmedResult.modifiedItem = result.ops[0];
+                        trimmedResult.modifiedCount = result.modifiedCount;
+                        trimmedResult.modifiedItem._id = id;
+                        resolve(trimmedResult);
                         client.close;
                     }
                 });
