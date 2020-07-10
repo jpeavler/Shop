@@ -60,7 +60,15 @@ const InventoryForm = ({myItem, id, inventory, setInv}) => {
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},
                 body: JSON.stringify(addedItem)
-            }).then(() => closeForm())
+            })
+            .then(response => response.json())
+            .then(res => {
+                console.log("Response from Backend", res);
+                let invCopy = [...inventory];
+                invCopy.push(res.insertedItem);
+                setInv(invCopy);
+            })
+            .then(() => closeForm())
         }
     }
     const toggle = () => setModal(!modal);

@@ -75,7 +75,10 @@ const addItem = (item) => {
                     if(err) {
                         reject(err);
                     } else {
-                        resolve(result.ops[0]);
+                        console.log(result);
+                        let response = {insertedCount :result.insertedCount};
+                        response.insertedItem = result.ops[0]
+                        resolve(response);
                         client.close();
                     }
                 });
