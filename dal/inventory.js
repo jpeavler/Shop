@@ -174,8 +174,11 @@ const deleteItem = (id) => {
                             reject(err);
                         }else{
                             if(data.lastErrorObject.n > 0) {
+                                let response = {"deletedItems" : 1};
                                 console.log("Data.value",data);
-                                resolve(data.value);
+                                response.deletedItem = data.value;
+                                console.log("response: ", response);
+                                resolve(response);
                             }else{
                                 resolve({error: "ID doesn't exist in Database"})
                             }
