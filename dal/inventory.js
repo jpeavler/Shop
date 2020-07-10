@@ -131,12 +131,16 @@ const updateItemValues = (id, item) => {
                             if(err) {
                                 reject(err);
                             }else{
+                                let response = {modifiedCount: data.modifiedCount};
+                                console.log("MongoDB response for a Patch",response);
                                 if(data.result.n > 0) {
                                     collection.find({_id}).toArray(function(err, docs){
                                             if(err) {
                                                 reject(err);
                                             }else{
-                                                resolve(docs[0]);
+                                                console.log("MongoDB response for a Read", docs);
+                                                response.modifiedItem = docs[0];
+                                                resolve(response);
                                             }
                                         });
                                 }else{
