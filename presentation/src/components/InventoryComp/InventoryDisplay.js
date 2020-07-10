@@ -34,14 +34,14 @@ const InventoryDisplay = () => {
             method: 'DELETE'
         })
         .then(response => response.json())
-        .then(res =>{
+        .then(res => {
             console.log("Result from fetch: ", res);
-            let changedInventory = [...inventory];
-            console.log("Before filter", changedInventory);
-            changedInventory = changedInventory.filter(item => item._id !== res._id);
-            console.log("After filter", changedInventory);
-            setInv(changedInventory);
-            return changedInventory;
+            let InvCopy = [...inventory];
+            console.log("Before filter", InvCopy);
+            InvCopy = InvCopy.filter(item => item._id !== res._id);
+            console.log("After filter", InvCopy);
+            setInv(InvCopy);
+            return InvCopy;
         })
     }
     const toggleActive = (id, isActive) => {
@@ -50,7 +50,20 @@ const InventoryDisplay = () => {
             method: 'PATCH',
             headers: {'Content-Type' : 'application/json'},
             body: JSON.stringify(newActiveStatus)
-        }).then(getInv)
+        })
+        .then(response => response.json())
+        .then(res => {
+            console.log("Is Active", res.isActive);
+            console.log("Item ID to change:", res._id);
+            let InvCopy = [...inventory];
+            InvCopy.forEach(item => {
+                if(item._id === res._id) {
+                    item.isActive = res.isActive;
+                }
+            });
+            console.log("InvCopy after attempt to update", InvCopy);
+            setInv(InvCopy);
+        })
     }
     const handleSort = (sortMethod) => {
         let sortedInv = Object.assign([], inventory);
