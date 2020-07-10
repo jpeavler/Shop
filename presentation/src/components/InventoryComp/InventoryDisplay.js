@@ -104,8 +104,8 @@ const InventoryDisplay = () => {
     });
     const toggleModal = () => setFModal(!filterModal);
     let renderForm = isUpdate ? 
-        <InventoryForm key={itemToUpdate._id} refresh={getInv} isUpdate={isUpdate} myItem={itemToUpdate} id={itemToUpdate._id}/>
-        : <InventoryForm key="additem" refresh={getInv} isUpdate={isUpdate}/>
+        <InventoryForm key={itemToUpdate._id} inventory={inventory} setInv={setInv} isUpdate={isUpdate} myItem={itemToUpdate} id={itemToUpdate._id}/>
+        : <InventoryForm key="additem" inventory={inventory} setInv={setInv} isUpdate={isUpdate}/>
     let activeBtn = displayActive ? 
         <Button color="primary" key="hideAct" onClick={() => setActive(false)} block>Hide Active</Button>
         : <Button color="primary" key="showAct" onClick={() => setActive(true)} block>Show Active</Button>
