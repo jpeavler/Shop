@@ -53,12 +53,13 @@ const InventoryDisplay = () => {
         })
         .then(response => response.json())
         .then(res => {
-            console.log("Is Active", res.isActive);
-            console.log("Item ID to change:", res._id);
+            console.log("Is Active", res.modifiedItem.isActive);
+            console.log("Item ID to change:", res.modifiedItem._id);
             let InvCopy = [...inventory];
             InvCopy.forEach(item => {
-                if(item._id === res._id) {
-                    item.isActive = res.isActive;
+                if(item._id === res.modifiedItem._id) {
+                    console.log(res.modifiedItem);
+                    item.isActive = res.modifiedItem.isActive;
                 }
             });
             console.log("InvCopy after attempt to update", InvCopy);
