@@ -2,19 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {Modal, ModalHeader, ModalBody, Form, Input, Button} from 'reactstrap';
 import {isLoggedIn} from '../../config/auth';
 
-const InventoryForm = ({refresh, myItem, id}) => {
-    let formName = "";
-    let formDesc = "";
-    let formCount = "";
-    let formPrice = "";
-    let modalOpen = false;
-    if(myItem) {
-        formName = myItem.name;
-        formDesc = myItem.desc;
-        formCount = myItem.quantity;
-        formPrice = myItem.price;
-        modalOpen = true;
-    }
+const InventoryForm = ({myItem, id, inventory, setInv}) => {
+    let formName = myItem ? myItem.name : "";
+    let formDesc = myItem ? myItem.desc : "";
+    let formCount = myItem ? myItem.quantity : "";
+    let formPrice = myItem ? myItem.price : "";
+    let modalOpen = myItem ? true : false;
     const [name, setName] = useState(formName);
     const [desc, setDesc] = useState(formDesc);
     const [quantity, setCount] = useState(formCount);
@@ -29,6 +22,13 @@ const InventoryForm = ({refresh, myItem, id}) => {
     useEffect(() => {
         getUserInfo();
     }, [])
+    const closeForm = () => {
+        setName("");
+        setDesc("");
+        setCount("");
+        setPrice("");
+        setModal(false);
+    }
     const handleSubmit = (event) => {
         event.preventDefault();
         let isActive = true;
@@ -40,18 +40,27 @@ const InventoryForm = ({refresh, myItem, id}) => {
                 method: 'PUT',
                 headers: {'Content-Type' : 'application/json'},
                 body: JSON.stringify(updatedItem)
-            }).then(() => setName(''))
-                .then(() => setDesc('')).then(() => setCount(''))
-                .then(() => setPrice('')).then(() => refresh()).then(() => setModal(false))
+            })
+            .then(response => response.json())
+            .then(res => {
+                console.log("Response from Backend", res);
+                let invCopy = [...inventory];
+                invCopy.forEach((item, index) => {
+                    if(item._id === res.modifiedItem._id) {
+                        invCopy[index] = res.modifiedItem;
+                    }
+                })
+                console.log("InvCopy after change", invCopy);
+                setInv(invCopy);
+            })
+            .then(() => closeForm())
         } else {
             const addedItem = {name, desc, quantity, price, isActive, seller};
             fetch(`${process.env.REACT_APP_API_URL}/api/inventory`, {
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},
                 body: JSON.stringify(addedItem)
-            }).then(() => setName(''))
-            .then(() => setDesc('')).then(() => setCount(''))
-            .then(() => setPrice('')).then(() => refresh()).then(() => setModal(false))
+            }).then(() => closeForm())
         }
     }
     const toggle = () => setModal(!modal);
@@ -60,7 +69,7 @@ const InventoryForm = ({refresh, myItem, id}) => {
     let formHeader;
     if(myItem) {
         renderSubmit = <Button color="primary" key="edit" type="submit" block>Edit Item</Button>
-        cancel = <Button type="button" key="canceledit" onClick={() => refresh()} block>Cancel Edit</Button>
+        cancel = <Button type="button" key="canceledit" onClick={() => closeForm()} block>Cancel Edit</Button>
         formHeader = <ModalHeader key="edithead">Edit Item: {myItem.name}</ModalHeader>
     } else {
         renderSubmit = <Button color="primary" key="add" type="submit" block>Add Item</Button>
