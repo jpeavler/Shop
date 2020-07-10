@@ -38,7 +38,8 @@ const InventoryDisplay = () => {
             console.log("Result from fetch: ", res);
             let InvCopy = [...inventory];
             console.log("Before filter", InvCopy);
-            InvCopy = InvCopy.filter(item => item._id !== res._id);
+            console.log("result deleted item:", res.deletedItem);
+            InvCopy = InvCopy.filter(item => item._id !== res.deletedItem._id);
             console.log("After filter", InvCopy);
             setInv(InvCopy);
             return InvCopy;
