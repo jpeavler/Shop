@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Modal, ModalHeader, ModalBody, Form, Input, Button} from 'reactstrap';
 import {isLoggedIn} from '../../config/auth';
 
-const InventoryForm = ({myItem, id, inventory, setInv}) => {
+const InventoryForm = ({myItem, id, inventory, setInv, setUpdate}) => {
     let formName = myItem ? myItem.name : "";
     let formDesc = myItem ? myItem.desc : "";
     let formCount = myItem ? myItem.quantity : "";
@@ -27,7 +27,8 @@ const InventoryForm = ({myItem, id, inventory, setInv}) => {
         setDesc("");
         setCount("");
         setPrice("");
-        setModal(false);
+        setModal(!modal);
+        setUpdate(false);
     }
     const handleSubmit = (event) => {
         event.preventDefault();
