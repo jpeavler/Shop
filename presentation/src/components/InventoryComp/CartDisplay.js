@@ -20,7 +20,7 @@ const CartDisplay = () => {
                 if(cart != null) {
                     let cartParsed = cart.split(",");
                     cartParsed.forEach((itemID) => {
-                        if(itemID == item._id) {keep = true;}
+                        if(itemID === item._id) {keep = true;}
                     })
                 }
                 return keep;

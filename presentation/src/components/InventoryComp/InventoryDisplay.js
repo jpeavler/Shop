@@ -69,9 +69,9 @@ const InventoryDisplay = () => {
     }
     const handleSort = (sortMethod) => {
         let sortedInv = Object.assign([], inventory);
-        if(sortMethod == "quantity") {
+        if(sortMethod === "quantity") {
             sortedInv.sort((a, b) => b.quantity - a.quantity);
-        } else if(sortMethod == "price") {
+        } else if(sortMethod === "price") {
             sortedInv.sort((a, b) => b.price - a.price);
         }
         setInv(sortedInv);
@@ -84,7 +84,7 @@ const InventoryDisplay = () => {
         if(!item.isActive) {
             deleteButton = <Button color="danger" onClick={() => handleDelete(item._id)} block>Delete</Button>      
         }
-        if(item.seller == username) {
+        if(item.seller === username) {
             if((item.isActive && displayActive) || (!item.isActive && displayInactive)) {
                 return (
                     <Card key={item._id} className="item">
@@ -101,8 +101,8 @@ const InventoryDisplay = () => {
                         </CardFooter>
                     </Card>
                 )
-            }
-        }
+            } else {return null;}
+        }else {return null;}
     });
     const toggleModal = () => setFModal(!filterModal);
     let renderForm = isUpdate ? 
