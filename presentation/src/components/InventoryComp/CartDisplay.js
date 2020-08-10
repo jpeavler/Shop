@@ -32,7 +32,8 @@ const CartDisplay = () => {
         let myTotal = 0;
         cartItems.forEach((item) => {
             myTotal = myTotal + parseFloat(item.price);
-        })
+        });
+        myTotal = (Math.ceil(myTotal * 100)/100).toFixed(2);
         setTotal(myTotal);
     }
     const displayInv = cartItems.map((item) => {
