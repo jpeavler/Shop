@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {Button, Media} from 'reactstrap';
-import NavBar from '../components/NavBar'
 import {isLoggedIn} from '../config/auth';
 import ProfileForm from '../components/UserComp/ProfileForm';
 

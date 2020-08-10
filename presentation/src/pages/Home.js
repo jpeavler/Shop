@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import NavBar from '../components/NavBar';
 import LoginForm from '../components/UserComp/LoginForm';
 import ShopDisplay from '../components/InventoryComp/ShopDisplay';
 import {isLoggedIn} from '../config/auth';
