@@ -40,7 +40,6 @@ const Profile = () => {
     else if(user.pic === 3) {img =<Media object src="/assets/purpleUser.png" alt="Profile3" className="profilepic"/>}
     return (
         <div className="profile">
-            <NavBar loggedIn={loggedIn} setLoggedIn ={setLoggedIn}/>
             <Media>
                 <Media left>
                     {img}

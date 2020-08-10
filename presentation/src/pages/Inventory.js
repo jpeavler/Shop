@@ -8,7 +8,6 @@ const Inventory = () => {
     const [loggedIn, setLoggedIn] = useState(isLoggedIn());
     return (
         <div className="inventory">
-            <NavBar loggedIn={loggedIn} setLoggedIn ={setLoggedIn}/>
             <InventoryDisplay/>
         </div>
     )

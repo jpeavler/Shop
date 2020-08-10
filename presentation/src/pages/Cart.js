@@ -8,8 +8,7 @@ const Cart = () => {
     const [loggedIn, setLoggedIn] = useState(isLoggedIn());
     return (
         <div className="inventory">
-            <NavBar loggedIn={loggedIn} setLoggedIn ={setLoggedIn}/>
-            <h2>Cart Page</h2>
+            <h2>Cart</h2>
             <CartDisplay/>
         </div>
     )

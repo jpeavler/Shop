@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -11,11 +11,14 @@ import Profile from '../pages/Profile';
 import Cart from '../pages/Cart';
 import Signup from '../pages/Signup';
 import {isLoggedIn} from '../config/auth';
+import NavBar from './NavBar';
 
 const ShopRouter = () => {
+    const [loggedIn, setLoggedIn] = useState(isLoggedIn());
     return(
         <Router>
             <div>
+                <NavBar loggedIn={loggedIn} setLoggedIn ={setLoggedIn}/>
                 <Switch>
                     <PrivateRoute exact path="/inventory">
                         <Inventory/>  
